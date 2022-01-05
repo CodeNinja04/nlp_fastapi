@@ -32,8 +32,7 @@ def index():
 def pos_tagging(item: Item,x: Optional[str] = None):
     
     
-    #x=list(item.text1.split(' '))
-    #item.text3="hemendra"
+    
     x=nlp(item.text1)
     y=[]
     z={}
@@ -60,5 +59,8 @@ def remove_stopword(items : Item,x: Optional[str] = None):
 origins=['http://localhost:3000/']
 
 app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 33d071fc4d77d7faa158563b62928f761b946826
