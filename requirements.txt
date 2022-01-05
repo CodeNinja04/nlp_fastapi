@@ -1,0 +1,5 @@
+gensim
+spacy
+fastapi
+uvicorn
+en_core_web_sm

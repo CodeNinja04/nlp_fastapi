@@ -1,0 +1,52 @@
+from fastapi import FastAPI,Request
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+#from gensim.summarization.summarizer import summarize
+from pydantic import BaseModel
+from gensim.similarities import Similarity
+from gensim.test.utils import common_corpus, common_dictionary, get_tmpfile
+from fastapi.encoders import jsonable_encoder
+from typing import Optional,List,Dict
+
+
+app = FastAPI()
+
+import spacy
+nlp = spacy.load('en_core_web_sm')
+
+class Item(BaseModel):
+    text1: str
+    text2:str
+    
+    
+class Itemlist(BaseModel):
+    text2:str
+
+@app.get('/hello')
+def index():
+  return {'message': 'Hello world!'}
+
+
+@app.post('/postagging',response_model=Itemlist)
+def create_item(item: Item,x: Optional[str] = None):
+    
+    
+    #x=list(item.text1.split(' '))
+    #item.text3="hemendra"
+    x=nlp(item.text1)
+    y=[]
+    z={}
+    for i in x:
+        y.append(i.pos_)
+        z[i.text]=i.pos_
+   
+    item.text2=z
+    
+    
+    json_compatible_item_data = jsonable_encoder(item.text2)
+    return JSONResponse(content=json_compatible_item_data)
+    #return item
+
+origins=['http://localhost:3000/']
+
+app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
