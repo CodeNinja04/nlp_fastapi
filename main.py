@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from gensim.similarities import Similarity
 from gensim.test.utils import common_corpus, common_dictionary, get_tmpfile
+from gensim.parsing.preprocessing import remove_stopwords
 from fastapi.encoders import jsonable_encoder
 from typing import Optional,List,Dict
 
@@ -28,7 +29,7 @@ def index():
 
 
 @app.post('/postagging',response_model=Itemlist)
-def create_item(item: Item,x: Optional[str] = None):
+def pos_tagging(item: Item,x: Optional[str] = None):
     
     
     #x=list(item.text1.split(' '))
@@ -47,6 +48,17 @@ def create_item(item: Item,x: Optional[str] = None):
     return JSONResponse(content=json_compatible_item_data)
     #return item
 
+@app.post("/removestopwords",response_model=Itemlist)
+
+def remove_stopword(items : Item,x: Optional[str] = None):
+    
+    filtered_sentence = remove_stopwords(items.text1)
+    items.text2=filtered_sentence 
+    json_compatible_item_data = jsonable_encoder(items.text2)
+    return JSONResponse(content=json_compatible_item_data) 
+
 origins=['http://localhost:3000/']
 
 app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
+
+
