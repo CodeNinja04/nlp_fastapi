@@ -59,8 +59,4 @@ def remove_stopword(items : Item,x: Optional[str] = None):
 origins=['http://localhost:3000/']
 
 app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 33d071fc4d77d7faa158563b62928f761b946826
