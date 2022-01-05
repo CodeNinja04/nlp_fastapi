@@ -31,8 +31,7 @@ def index():
 def create_item(item: Item,x: Optional[str] = None):
     
     
-    #x=list(item.text1.split(' '))
-    #item.text3="hemendra"
+    
     x=nlp(item.text1)
     y=[]
     z={}
